@@ -104,6 +104,7 @@
         return function() {
           controller.setCat(cat);
           catView.render();
+          adminView.reset();
         };
       })(cat));
 
@@ -146,7 +147,7 @@
     self.ccInput = document.getElementById('cc-edit');
     self.adminBtn = document.getElementById('show-admin');
 
-
+    self.adminDiv.style.display = 'none';
     self.adminBtn.addEventListener('click', function(){
       self.render();
     });
@@ -155,13 +156,14 @@
   adminView.render = function() {
     var self = this;
 
+    self.adminDiv.style.display = '';
     console.log('render admin view');
     var curCat = controller.getCurrentCat();
     self.nameInput.value = curCat.getName();
   };
 
   adminView.reset = function() {
-
+    this.adminDiv.style.display = 'none';
   };
 
   controller.init();
