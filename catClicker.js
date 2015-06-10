@@ -27,12 +27,24 @@
     return this.clickCount.toString();
   };
 
+  Cat.prototype.setCount = function(val) {
+    this.clickCount = val;
+  };
+
   Cat.prototype.getUrl = function() {
     return this.pic;
   };
 
+  Cat.prototype.setUrl = function(val) {
+    this.pic = val;
+  };
+
   Cat.prototype.getName = function() {
     return this.name;
+  };
+
+  Cat.prototype.setName = function(val) {
+    this.name = val;
   };
 
   model.currentCat = null;
@@ -79,6 +91,17 @@
   controller.incrementCount = function() {
     model.currentCat.clickCat();
     catView.render();
+  };
+
+  controller.saveCat = function(name, url, cc) {
+    var curCat = model.currentCat;
+
+    curCat.setName(name);
+    curCat.setUrl(url);
+    curCat.setCount(cc);
+    catView.render();
+    listView.render();
+    adminView.reset();
   };
 
 
@@ -146,10 +169,15 @@
     self.urlInput = document.getElementById('url-edit');
     self.ccInput = document.getElementById('cc-edit');
     self.adminBtn = document.getElementById('show-admin');
+    self.saveBtn = document.getElementById('save');
 
     self.adminDiv.style.display = 'none';
     self.adminBtn.addEventListener('click', function(){
       self.render();
+    });
+
+    self.saveBtn.addEventListener('click', function(){
+      self.save();
     });
   };
 
@@ -157,13 +185,24 @@
     var self = this;
 
     self.adminDiv.style.display = '';
-    console.log('render admin view');
     var curCat = controller.getCurrentCat();
+
     self.nameInput.value = curCat.getName();
+    self.urlInput.value = curCat.getUrl();
+    self.ccInput.value = curCat.getCount();
   };
 
   adminView.reset = function() {
     this.adminDiv.style.display = 'none';
+  };
+
+  adminView.save = function() {
+    var self = this;
+    var domName = self.nameInput.value,
+        domUrl = self.urlInput.value,
+        domCC = self.ccInput.value;
+
+    controller.saveCat(domName, domUrl, domCC);
   };
 
   controller.init();
