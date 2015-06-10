@@ -9,10 +9,10 @@
   var adminView = {};
 
   //Classes
-  function Cat(name, url) {
+  function Cat(name, url, cc) {
     this.name = name;
     this.pic = url;
-    this.clickCount = 0;
+    this.clickCount = cc || 0;
   }
 
   Cat.prototype.clickCat = function() {
@@ -47,6 +47,12 @@
     this.name = val;
   };
 
+  Cat.prototype.update = function(cat) {
+    this.setName(cat.getName());
+    this.setUrl(cat.getUrl());
+    this.setCount(cat.getCount());
+  };
+
   model.currentCat = null;
   model.cats = [];
   model.init = function() {
@@ -59,9 +65,9 @@
                 'http://i.imgur.com/X57Hi5F.jpg'];
 
     for (var i= 0; i < cats.length; i++) {
-      var cat = cats[i];
+      var catName = cats[i];
       var url = urls.pop();
-      var curCat = new Cat(cat, url);
+      var curCat = new Cat(catName, url);
       self.cats.push(curCat);
     }
   };
@@ -95,10 +101,10 @@
 
   controller.saveCat = function(name, url, cc) {
     var curCat = model.currentCat;
+    console.log("url in savecat", url);
+    var domCat = new Cat(name, url, cc);
+    curCat.update(domCat);
 
-    curCat.setName(name);
-    curCat.setUrl(url);
-    curCat.setCount(cc);
     catView.render();
     listView.render();
     adminView.reset();
