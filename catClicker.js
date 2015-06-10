@@ -170,14 +170,20 @@
     self.ccInput = document.getElementById('cc-edit');
     self.adminBtn = document.getElementById('show-admin');
     self.saveBtn = document.getElementById('save');
+    self.cancelBtn = document.getElementById('cancel');
 
     self.adminDiv.style.display = 'none';
+
     self.adminBtn.addEventListener('click', function(){
       self.render();
     });
 
     self.saveBtn.addEventListener('click', function(){
       self.save();
+    });
+
+    self.cancelBtn.addEventListener('click', function(){
+      self.cancel();
     });
   };
 
@@ -203,6 +209,10 @@
         domCC = self.ccInput.value;
 
     controller.saveCat(domName, domUrl, domCC);
+  };
+
+  adminView.cancel = function() {
+    this.reset();
   };
 
   controller.init();
