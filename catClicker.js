@@ -8,9 +8,9 @@
   var catView = {};
 
   //Classes
-  function Cat(name) {
+  function Cat(name, url) {
     this.name = name;
-    this.pic = 'https://placekitten.com/g/200/300';
+    this.pic = url;
     this.clickCount = 0;
   }
 
@@ -39,10 +39,16 @@
   model.init = function() {
     var self = this;
     var cats = ['jade', 'Udacicat', 'pip', 'stinky', 'derpy'];
+    var urls = ['http://i.imgur.com/HGaRLlo.jpg',
+                'http://i.imgur.com/5jbn9cr.jpg',
+                'http://i.imgur.com/3Sc3lbf.png',
+                'http://i.imgur.com/HcNWLsN.jpg',
+                'http://i.imgur.com/X57Hi5F.jpg'];
 
     for (var i= 0; i < cats.length; i++) {
       var cat = cats[i];
-      var curCat = new Cat(cat);
+      var url = urls.pop();
+      var curCat = new Cat(cat, url);
       self.cats.push(curCat);
     }
   };
@@ -111,6 +117,8 @@
     self.catNameElm = document.getElementById('cat-name');
     self.catCountElm = document.getElementById('cat-count');
     self.catImgElm = document.getElementById('cat-img');
+    self.catImgElm.width = 256;
+    self.catCountElm.innerHTML = 'click count: 0';
 
     self.catImgElm.addEventListener('click', function() {
       controller.incrementCount();
@@ -123,7 +131,7 @@
     var self = this;
 
     var curCat = controller.getCurrentCat();
-    self.catCountElm.textContent = curCat.getCount();
+    self.catCountElm.textContent = 'click count: ' + curCat.getCount();
     self.catNameElm.textContent = curCat.getName();
     self.catImgElm.src = curCat.getUrl();
   };
