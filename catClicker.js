@@ -6,6 +6,7 @@
   var controller = {};
   var listView = {};
   var catView = {};
+  var adminView = {};
 
   //Classes
   function Cat(name, url) {
@@ -60,6 +61,7 @@
     model.currentCat = model.cats[0];
     listView.init();
     catView.init();
+    adminView.init();
   };
 
   controller.getCurrentCat = function() {
@@ -134,6 +136,32 @@
     self.catCountElm.textContent = 'click count: ' + curCat.getCount();
     self.catNameElm.textContent = curCat.getName();
     self.catImgElm.src = curCat.getUrl();
+  };
+
+  adminView.init = function() {
+    var self = this;
+    self.adminDiv = document.getElementById('admin');
+    self.nameInput = document.getElementById('name-edit');
+    self.urlInput = document.getElementById('url-edit');
+    self.ccInput = document.getElementById('cc-edit');
+    self.adminBtn = document.getElementById('show-admin');
+
+
+    self.adminBtn.addEventListener('click', function(){
+      self.render();
+    });
+  };
+
+  adminView.render = function() {
+    var self = this;
+
+    console.log('render admin view');
+    var curCat = controller.getCurrentCat();
+    self.nameInput.value = curCat.getName();
+  };
+
+  adminView.reset = function() {
+
   };
 
   controller.init();
